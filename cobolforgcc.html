@@ -19,8 +19,8 @@ source code are two sample compiler front ends to GCC (exa and toy).
 
 <ul>
 
-<li><A href="http://sourceforge.net/projects/cobolforgcc/">SourceForge Project Main Page for this project</a>
-<li><A href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/cobolforgcc/">Source Code (cvs) Browsing</A>
+<li><A href="http://sourceforge.net/projects/c/co/cobolforgcc/">SourceForge Project Main Page for this project</a>
+<li><A href="http://cvs.sourceforge.net/cgi-bin/cvsweb.cgi/?cvsroot=cobolforgcc">Source Code (cvs) Browsing</A>
 <li><A href="http://lists.sourceforge.net/mailman/listinfo/cobolforgcc-announce">Announcement Mailing List</A>
 <li><A href="http://lists.sourceforge.net/mailman/listinfo/cobolforgcc-users">Users Mailing List</A>
 <li><A href="http://lists.sourceforge.net/mailman/listinfo/cobolforgcc-devel">Developer Mailing List</A>
@@ -30,7 +30,7 @@ source code are two sample compiler front ends to GCC (exa and toy).
 
 <h2>History</h2>
 
-<P>Work commenced March 1999. To date we have written about 74,000
+<P>Work commenced March 1999. To date we have written about 58,000
 lines of code and 12,000 lines of documentation for the project. The
 compiler is not yet at the stage where it is a useful tool. However
 all the difficult technical problems are solved and adding extra
@@ -71,13 +71,12 @@ projects are integrated into GCC so far.
 
 <br>
 <br>
-<li>Implementation of a small subset of COBOL, consisting of
+<li>Implementation of a miniscule subset of COBOL, consisting of
 working storage with non-numeric literals, and all of the COBOL 2002
 integral data types (binary-char binary-short binary-long and also
-binary-long-long) and structures, redefines, occurs, pointers and
-parts of the set verb and the display and stop run verbs in the
-procedure division, also compute, goto including goto depending on,
-Currently working on IF.
+binary-long-long) and structures (incomplete), redefines, occurs,
+pointers and parts of the set verb and the display and stop run verbs
+in the procedure division.
 
 <br>
 <li>Significant parts of the runtime have been done. See the source
@@ -101,9 +100,10 @@ a Compiler Front End</a>, written originally by Joachim Nadler and
 translated from German and extended by me. This chapter explains how
 to write a compiler front end to GCC in 513 not-so-easy steps.
 
-<BR> <BR> <A
-HREF="http://cobolforgcc.sourceforge.net/cobol_toc.html">COBOL
-for GCC Manual - includes chapter on writing a GCC Front End</A>
+<BR> <BR> 
+
+<A HREF="http://cobolforgcc.sourceforge.net/cobol_toc.html">COBOL for
+GCC Manual - includes chapter on writing a GCC Front End</A>
 
 <p>The Source forge project page has the task lists, bugs etc.
 
@@ -112,15 +112,15 @@ for GCC Manual - includes chapter on writing a GCC Front End</A>
 
 <h2>Source Code</h2>
 
-File modules from early in the project are available to download from 
-<A href="https://sourceforge.net/projects/CobolForGCC/">SourceForge Project Main Page for this project</a>
+File modules are available to download from 
+<A href="https://sourceforge.net/projects/c/co/cobolforgcc/">SourceForge Project Main Page for this project</a>
 
 <p>An easy way to look at the source code is to browse the CVS
 repository. A link to this is available from the main project links
 page above or directly at
 
 <A
-href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/cobolforgcc/">Source
+href="http://cvs.sourceforge.net/cgi-bin/cvsweb.cgi/?cvsroot=CobolForGCC">Source
 Code (cvs) Browsing</A>
 
 <p>You can also check out (download) the source code anonymously using
@@ -146,6 +146,11 @@ href="http://cvs.sourceforge.net/cvstarballs/CobolForGCC-cvsroot.tar.gz">Source
 Code tarball (use tar -xzf to unpack; most recent zip programs should be able to unpack them also)</A>
 
 <h2>Other Free COBOL projects and other related Links.</h2>
+
+<p><A
+href="http://sourceforge.net/projects/c/co/cobolforgcc/oldexamples.tgz">Old
+gcc sample front end compilers toy and exa.</a> Use with care due due
+to copyright issues (not all assigned to FSF).
 
 <p>The Tiny COBOL project is currently quite active. It started mid
 1999 using a pre-existing DOS COBOL compiler as a base. They are
@@ -193,7 +198,7 @@ manual excluding my amendments above, mailing lists etc.
 
 <p>Take the link below to get to the mailing lists, files, cvs access etc for the COBOL For GCC project
 <BR>
-<A href="http://cobolforgcc.sourceforge.net/">Cobol For GCC project
+<A href="http://CobolForGCC.sourceforge.net/">Cobol For GCC project
 work page at SourceForge</A>
 <br>
 <br>
@@ -215,8 +220,6 @@ work page at SourceForge</A>
 <h2>Changes</h2>
 
 <ol>
-<li>22 Jul 2001: Update links. 
-
 <li>20 Mar 2001: Updates to accommodate move of the main project page
 to www.gnu.org. Status update.
 
