@@ -1,0 +1,205 @@
+
+NAME
+       cobol2c - Cobol to C translator, version 0.00
+
+SYNOPSIS
+       cobol2c [ options ] [ file ]
+
+SYNOPSIS - PREPROCESSOR
+       cobpp  [ options ] [ file ]
+
+
+DESCRIPTION
+       Cobol2c is a tool for translating COBOL programs into C.  The
+       input consists of a single source file in any of the following
+       COBOL dialects: ANSI 85, the anticipated 9x standard.  Output 
+       is a set of .c and .h files that comprise an equivalent program  
+       in ANSI C.  Most reasonable COBOL programs will be converted  
+       into  fully functional C which will compile and run with no 
+       further modifications.  Cobol2c endeavors to insert notes into
+       the output code.  Output code is not arranged to be or efficient.
+       The main goal of the translation is to create accurate C code 
+       in anticipation of a forth coming Cobol compiler.
+
+       All generated code includes <stdio.h> and various other common 
+       resources.  
+
+       Given a file name, cobol2c reads from the specified file and
+       outputs to a file with a .c suffix added  or  substituted.
+       For example,
+
+            cobol2c myfile.cbl
+
+       reads  from  myfile.cbl to produce the C file.  The name of
+       the C file is gleaned from the PROGRAM-ID line of the cobol
+       source file with a .c extension appended.  The input file 
+       may contain a COBOL main program.
+
+       If no file name is given, cobol2c reads COBOL from the stan-
+       dard  input but still writes the resulting C to a file given
+       by the PROGRAM-ID line and a .h file of the same name will
+       also be produced.  
+
+
+OPTIONS
+       -a, --ansi85
+              Check ANSI 85 standards for COBOL.
+
+       -d, --debug
+              Turns on debugging of source.
+
+       -f, --fixed-format
+              Enforce fixed format code.  Gives an error on any code
+              which violates the column restrictions.
+
+       -h, --help
+              Print help information.
+
+       -t, --tab number
+              Expand tabs to number of spaces.
+
+       -v, --version
+              Print version information.
+
+       -x, --free-format
+              Allow free format code, i.e., column independent code
+              following the X/Open standard.  This is in anticipation 
+              of the cobol 9x standard which should do away with 
+              columns altogether.
+
+FILES
+       file.cbl         Cobol source files
+       pgm-id.c         resulting C source file
+       pgm-id.h         resulting C header file    
+                                                           
+
+DIAGNOSTICS
+       The diagnostics produced by cobol2c are intended to be self-
+       explanatory.
+
+PREPROCESSOR
+       The preprocessor does all of the column checking.  It outputs
+       a temporary file with comments removed and includes the debug
+       statements, if necessary.
+
+COLUMNS AND CHARACTERS
+       ANSI 85
+             Columns
+              1 to 6     Sequence Number
+              7          Indicator Area
+                            * Comment
+                            D Debug Line
+                            / Comment
+                            - Line Continuation
+  
+              8 to 11    Area A
+             12 to 72    Area B
+             72 to 80    End of Line Comment        
+
+       The sequence numbers were primarily for keeping punched cards
+       in order.  They are considered obsolete, but included.
+
+       The indicator area is used for denoting comments, string literals
+       which span multiple lines, and debugging code.  This debugging
+       code is ignored by default and treated as a comment unless the
+       debug flag is given to the compiler.
+
+       Area A is used for upper level paragraph names and the like.
+
+       Area B is used for all other parts of the language including
+       regular verbs and paragraph names.
+
+       The end of line comments were used for goto statements.
+
+       X/OPEN, 9x STANDARD
+             Column one is the Indicator Area.
+              *          Comment
+              /          Comment
+              D          Debug Line
+              $          Compiler Directive
+  
+       The "&" operator is added as the string continuation character.
+
+       The "tab" character is not a valid character in either standard.
+       However, since they are so prevalent today, we have allowed the
+       preprocessor to convert these tabs to a specified number of spaces.
+
+OVERVIEW
+       This project has concerned itself with translating COBOL to C.  
+       COBOL, though widely used, has not had much success with free 
+       software products which interpret, compile, or translate its 
+       source code.  We believe this is due to the difficultly associated 
+       with creating a parser for the language.  In order to address 
+       the lack of free translators or compilers, we have written a COBOL 
+       to C translator.  
+
+GRAMMAR, EMITTED CODE, AND PARSING
+       The grammar for COBOL is not context free.  The construction 
+       "any of these options in any order" is the most obvious example.  
+       The grammar is defined in several files in the pseudo-EBNF syntax 
+       of the Purdue Compiler Construction Tool Set (PCCTS).
+
+       The C code is emitted by a set of specialized functions which 
+       are called by the grammar actions.  These functions are included 
+       directly in the C output rather than consisting of library calls 
+       to a specialized function library.  Such a library may be part of 
+       the next release.
+
+       This translator produces ANSI C code which compiles with no
+       warnings.  All "dangerous" operations are checked for bad values 
+       and should exit before causing a segmentation fault or bus error.
+
+       We parse all of the identification division, the majority of the 
+       environment division, the data division, and the procedure division.
+       All statements which are parsed but not implemented will display 
+       a warning when translating and are ignored.
+
+       All structures are handled, including filler elements.  However,
+       level numbers 66, 77, and 88 are not implemented.  The first two
+       are not implemented because they relate to features we do not 
+       implement, namely, multiple source files and communication between
+       COBOL programs.  The 88 level has been excluded due to time
+       constraints.
+
+       We do not include obsolete constructions.  For example, the STOP
+       statement used to allow for "pausing" the program by calling "STOP 
+       string_literal".  However this is not standard, nor is it a 
+       language construct that is expected to be included in the 9x 
+       standard.
+
+       Statements which are parsed are checked for semantic validity
+       before any code emission occurs.  
+
+NOTATION CONVERSION
+       The "**" (exponent) operator appears in COBOL as an infix operator.
+       This notation had to be converted to the C prefix equivalent,
+       "pow()".  The arithmetic expressions were translated in the grammar
+       actions into a C equivalent expression string.
+
+       This conversion includes translation of COBOL style conditionals
+       to C style.  For example, "NOT GREATER THAN" becomes "<=".
+
+LIMITATIONS
+       Known limitations of the compiler are as follows.  We only allow
+       for one input file.  The maximum number of filler elements in any 
+       given file is MAXINT, usually 2^32.  This is due to the C
+       requirement that members of a structure must be named and that
+       in order to initialize these members, we need to address them.
+
+       We do not support file I/O at the time of this writing.  We also
+       do not support communication between programs or nested COBOL 
+       programs.
+
+       Structure members must be referred to by their fully qualified
+       names.  That is, given
+	01 record-one.
+		05 rec-lname	pic x(30).
+       we reference rec-lname as "record-one.rec-lname".  This is due
+       to the difficulty in disambiguating references should "rec-lname"
+       appear in more than one record.
+
+AUTHORS
+       Grammar:   Laura Tweedy    <tweedy@umr.edu>
+       C output:  Chad Slaughter  <slaught@umr.edu>
+
+       Sun Dec  7 23:14:26 CST 1997
